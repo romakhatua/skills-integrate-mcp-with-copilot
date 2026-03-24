@@ -3,15 +3,49 @@ document.addEventListener("DOMContentLoaded", () => {
   const activitySelect = document.getElementById("activity");
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
+  
+  // Filter elements
+  const searchInput = document.getElementById("search-input");
+  const scheduleFilter = document.getElementById("schedule-filter");
+  const clearFiltersBtn = document.getElementById("clear-filters");
+  const filterStatus = document.getElementById("filter-status");
 
   // Function to fetch activities from API
   async function fetchActivities() {
     try {
-      const response = await fetch("/activities");
+      // Build query parameters from filter inputs
+      const params = new URLSearchParams();
+      const searchTerm = searchInput.value.trim();
+      const scheduleTerm = scheduleFilter.value.trim();
+      
+      if (searchTerm) params.append("search", searchTerm);
+      if (scheduleTerm) params.append("schedule", scheduleTerm);
+      
+      const queryString = params.toString();
+      const url = "/activities" + (queryString ? "?" + queryString : "");
+      
+      const response = await fetch(url);
       const activities = await response.json();
 
       // Clear loading message
       activitiesList.innerHTML = "";
+
+      // Check if any filters are active
+      const hasFilters = searchTerm || scheduleTerm;
+      const resultCount = Object.keys(activities).length;
+      
+      if (hasFilters) {
+        filterStatus.innerHTML = `<span>Found ${resultCount} matching activities</span>`;
+        filterStatus.classList.remove("hidden");
+      } else {
+        filterStatus.classList.add("hidden");
+      }
+
+      // Display message if no results
+      if (resultCount === 0) {
+        activitiesList.innerHTML = "<p>No activities match your filters. Try adjusting your search.</p>";
+        return;
+      }
 
       // Populate activities list
       Object.entries(activities).forEach(([name, details]) => {
@@ -153,6 +187,22 @@ document.addEventListener("DOMContentLoaded", () => {
       messageDiv.classList.remove("hidden");
       console.error("Error signing up:", error);
     }
+  });
+
+  // Add event listeners for filters
+  searchInput.addEventListener("input", () => {
+    fetchActivities();
+  });
+
+  scheduleFilter.addEventListener("change", () => {
+    fetchActivities();
+  });
+
+  clearFiltersBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    scheduleFilter.value = "";
+    filterStatus.classList.add("hidden");
+    fetchActivities();
   });
 
   // Initialize app

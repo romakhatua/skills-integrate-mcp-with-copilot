@@ -84,8 +84,36 @@ def root():
 
 
 @app.get("/activities")
-def get_activities():
-    return activities
+def get_activities(search: str = None, schedule: str = None):
+    """
+    Get activities with optional search and filtering
+    
+    Query parameters:
+    - search: Search in activity name and description (case-insensitive)
+    - schedule: Filter by schedule day/time (case-insensitive)
+    """
+    result = dict(activities)
+    
+    # Apply search filter
+    if search:
+        search_lower = search.lower()
+        filtered = {}
+        for name, details in result.items():
+            if (search_lower in name.lower() or 
+                search_lower in details["description"].lower()):
+                filtered[name] = details
+        result = filtered
+    
+    # Apply schedule filter
+    if schedule:
+        schedule_lower = schedule.lower()
+        filtered = {}
+        for name, details in result.items():
+            if schedule_lower in details["schedule"].lower():
+                filtered[name] = details
+        result = filtered
+    
+    return result
 
 
 @app.post("/activities/{activity_name}/signup")

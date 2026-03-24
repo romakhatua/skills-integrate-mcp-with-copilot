@@ -13,6 +13,31 @@
     </header>
 
     <main>
+      <section id="filter-container">
+        <h3>Search & Filter Activities</h3>
+        <div class="filter-group">
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Search by name or description..." 
+            class="search-box"
+          />
+        </div>
+        <div class="filter-group">
+          <label for="schedule-filter">Filter by Day/Time:</label>
+          <select id="schedule-filter" class="filter-select">
+            <option value="">-- All Days --</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+          </select>
+        </div>
+        <button id="clear-filters" class="filter-button">Clear Filters</button>
+        <div id="filter-status" class="filter-status hidden"></div>
+      </section>
+
       <section id="activities-container">
         <h3>Available Activities</h3>
         <div id="activities-list">
