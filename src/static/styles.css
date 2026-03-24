@@ -50,11 +50,72 @@ section {
   max-width: 500px;
 }
 
+#filter-container {
+  width: 100%;
+  max-width: 1000px;
+}
+
 section h3 {
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ddd;
   color: #1a237e;
+}
+
+/* Filter styles */
+.filter-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-box {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+
+.search-box:focus {
+  outline: none;
+  border-color: #1a237e;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #1a237e;
+}
+
+.filter-button {
+  background-color: #959595;
+  margin-top: 10px;
+}
+
+.filter-button:hover {
+  background-color: #757575;
+}
+
+.filter-status {
+  margin-top: 15px;
+  padding: 12px;
+  background-color: #e3f2fd;
+  border-left: 4px solid #1a237e;
+  border-radius: 4px;
+  color: #0d47a1;
+  font-size: 14px;
 }
 
 .activity-card {
